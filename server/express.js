@@ -10,18 +10,24 @@ app.get("/home", (req, res) => {
   res.status(200).send("<h1>hello world</h1>");
 });
 
-app.get("/users", (req, res) => {
-  const users = [
-    {
-      name: "Arian Botine",
-      email: "arian@botine.com",
-    },
-    {
-      name: "Bruna Ramos",
-      email: "bruna@ramos.com",
-    },
-  ];
-  res.status(200).json(users);
+app.get("/users", async (req, res) => {
+  try {
+    const users = await UserModel.find({});
+    res.status(201).json(users);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/users/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const user = await UserModel.findById(id);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.post("/users", async (req, res) => {
