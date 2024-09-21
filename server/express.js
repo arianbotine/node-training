@@ -5,6 +5,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(req.body);
+  next();
+});
+
 app.get("/home", (req, res) => {
   res.contentType("text/html");
   res.status(200).send("<h1>hello world</h1>");
